@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ folder }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="contenedor" [fullscreen]="true">
+<body [style.backgroundImage]="'url(assets/fondocondicion/' + condicionTexto + '.jpg)'" >
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ folder }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ion-card>
+      <ion-card-header>
+        <h1>{{nombreLocalidad}}</h1>
+      </ion-card-header>
+      <ion-card-content *ngIf = "objetoCondicion">
+        <p>Temperatura: {{objetoCondicion.temperatura}}°</p>
+        <p>Humedad: {{objetoCondicion.humedad}}%</p>
+        <p>Dirección de viento: {{objetoCondicion.vientoDireccion}}</p>
+        <p>Fuerza de viento: {{objetoCondicion.vientoFuerza}}Km/h</p>
+        <p>Información de las: {{objetoCondicion.timestamp}}</p>
+        <p>Condición: {{objetoCondicion.condicionTexto}}</p>
+        <img [src]="'assets/iconosclima/'+objetoCondicion.condicionIcono" alt="Clima" />
+      </ion-card-content>
+    </ion-card>
+    
+    
+  </div>
+
+</body>
+
+</ion-content>
