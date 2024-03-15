@@ -27,7 +27,7 @@ export class FolderPage implements OnInit {
   ciudades: any;
   currentPage: number = 1;
   cidudadesPerPage: number = 10
-  pronosticos : any;
+  pronosticos: any;
 
 
 
@@ -67,7 +67,7 @@ export class FolderPage implements OnInit {
         console.log("ciudades", this.ciudades);
         localidad.forEach((element: { latitud: number; longitud: number; }) => {
           // Accede a this.coordenadas.latitude y this.coordenadas.longitude aquí
-          const distancia = this.haversine(this.coordenadas.latitude, this.coordenadas.longitude, element.latitud, element.longitud)
+          const distancia = this.haversine(-75, -74, element.latitud, element.longitud)
           if (distancia < this.distanciaMinima) {
             this.distanciaMinima = distancia;
             this.puntoMasCercano = element;
