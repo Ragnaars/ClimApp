@@ -1,41 +1,94 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>{{ folder }}</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-
 <ion-content class="contenedor" [fullscreen]="true">
-<body [style.backgroundImage]="'url(assets/fondocondicion/' + condicionTexto + '.jpg)'" >
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">{{ folder }}</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <!--
+    BODY PARA CONDICION ACTUAL
+  -->
 
-  <div id="container">
-    <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-    <ion-card>
+  <div id="container" *ngIf="folder =='condicion'"
+    [style.backgroundImage]="'url(assets/fondocondicion/' + condicionTexto + '.jpg)'"
+    style="height: auto; background-size: cover; background-position: center;">
+    <ion-header [translucent]="true" style="background-color: transparent;">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button style="color : white"></ion-menu-button>
+        </ion-buttons>
+        <ion-title style="text-align: center; margin-right: 5.5vh; color : white ; font-family : 'MiFuente-Bold'">{{ nombreLocalidad}}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-card style = "box-shadow: 0px 2px 0px 1px rgb(143, 135, 135);">
       <ion-card-header>
-        <h1>{{nombreLocalidad}}</h1>
       </ion-card-header>
-      <ion-card-content *ngIf = "objetoCondicion">
-        <p>Temperatura: {{objetoCondicion.temperatura}}°</p>
+      <ion-card-content *ngIf="objetoCondicion">
+        <p>{{objetoCondicion.condicionTexto}}</p>
+
+        <ion-grid class="ion-text-center">
+          <ion-row style="display: flex; align-items: center; margin-left: 5.5vh">
+            <ion-col>
+              <p style="font-size: xx-large; font-weight: bold;">{{objetoCondicion.temperatura}}°</p>
+            </ion-col>
+            <ion-col style="display: flex; align-items: center;">
+              <img [src]="'assets/iconosclima/'+objetoCondicion.condicionIcono" alt="Clima" style="height: 10vh; width: 10vh" />
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col></ion-col>
+            <ion-col> <img [src]="'assets/iconosuv/'+datosPronosLocalidad.indiceUV.indice+'.png'"
+                style="border-radius : 50%">
+              <p>{{datosPronosLocalidad.indiceUV.calificador}}</p>
+            </ion-col>
+            <ion-col></ion-col>
+          </ion-row>
+        </ion-grid>
         <p>Humedad: {{objetoCondicion.humedad}}%</p>
-        <p>Dirección de viento: {{objetoCondicion.vientoDireccion}}</p>
-        <p>Fuerza de viento: {{objetoCondicion.vientoFuerza}}Km/h</p>
+
         <p>Información de las: {{objetoCondicion.timestamp}}</p>
-        <p>Condición: {{objetoCondicion.condicionTexto}}</p>
-        <img [src]="'assets/iconosclima/'+objetoCondicion.condicionIcono" alt="Clima" />
+        <div style="text-align: center; justify-content : center; align-items : center ; display : flex">
+        </div>
       </ion-card-content>
     </ion-card>
-    
-    
+
+    <ion-card *ngFor="let pronostico of pronosticos">
+      <ion-card-header>
+        <h2>{{pronostico.dia}}</h2>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Temperatura Máxima: {{pronostico.temperaturaMaxima}}°</p>
+        <p *ngIf="pronostico.temperaturaMinima !== null">Temperatura Mínima: {{pronostico.temperaturaMinima}}°</p>
+      </ion-card-content>
+    </ion-card>
   </div>
 
-</body>
+
+
+  <!--
+    BODY PARA CIUDADES
+    -->
+
+  <body *ngIf="folder == 'ciudades'" [style.backgroundImage]="'url(assets/fondocondicion/' + condicionTexto + '.jpg)'">
+    <ion-content>
+      <ion-header [translucent]="true" style="background-color: transparent;">
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title style="text-align: center; margin-right: 6vh">{{ folder }}</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+
+      <ion-list>
+        <ion-item *ngFor="let ciudad of ciudades">
+          <ion-label>{{ciudad.nombre}}</ion-label>
+        </ion-item>
+      </ion-list>
+
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ion-content>
+  </body>
 
 </ion-content>

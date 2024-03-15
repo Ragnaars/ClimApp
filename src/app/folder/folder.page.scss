@@ -1,18 +1,21 @@
 
-
+* p{
+  font-family: 'MiFuente-Bold';
+}
 
 ion-menu-button {
   color: var(--ion-color-primary);
 }
 
+
 #container {
   text-align: center;
   position: absolute;
+  justify-content: center;
+  align-items: center;
   left: 0;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
+  }
 
 #container strong {
   font-size: 20px;
@@ -28,6 +31,38 @@ ion-menu-button {
 #container a {
   text-decoration: none;
 }
+#container div.uv{
+    color: aqua;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+@font-face {
+  font-family: 'MiFuente-Bold';
+  src: url('/assets/fonts/OpenSans/OpenSans-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'MiFuente-Italic';
+  src: url('/assets/fonts/OpenSans/OpenSans-Italic.ttf');
+}
+
+@font-face {
+  font-family: 'MiFuente-Regular';
+  src: url('/assets/fonts/OpenSans/OpenSans-Regular.ttf');
+}
+
+p {
+  font-family: 'MiFuente-Bold'; /* Usar la fuente regular por defecto para los párrafos */
+}
+
+p {
+  font-family: 'MiFuente', sans-serif; // Utiliza el nombre de la fuente que especificaste en @font-face
+}
 
 img{
   width: 50%;
@@ -40,10 +75,16 @@ body{
   background-position: center; /* Esto centrará la imagen en la tarjeta */
 }
 
+
+
 ion-card {
   background: rgba(255, 255, 255, 0.5); /* Blanco con 50% de opacidad */
 }
 
+ion-toolbar {
+  --background: transparent; /* Fondo transparente */
+
+}
 
 .condicion-bruma {
   background-image: url('/assets/fondocondicion/bruma.jpg');
@@ -115,4 +156,8 @@ ion-card {
 
 .condicion-viento {
   background-image: url('/assets/fondocondicion/viento.jpg');
+}
+
+.condicion-cubiertoynevadas {
+  background-image: url('/assets/fondocondicion/cubierto y nevadas.jpg');
 }
