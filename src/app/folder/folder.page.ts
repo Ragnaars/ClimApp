@@ -35,6 +35,8 @@ export class FolderPage implements OnInit {
   constructor(
     private condicion: CondicionActService,
     private pronosticoLocalidad: ObtenerLocalidaqdService) {
+    // Llama a infiniteScrollCiudades aquí para que se cargue la lista de ciudades al iniciar la aplicación
+    this.obtenerUbicacionActual();
     this.infiniteScrollCiudades();
 
   }
@@ -42,10 +44,9 @@ export class FolderPage implements OnInit {
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
     // Llama a obtenerUbicacionActual aquí
-    this.obtenerUbicacionActual();
   }
 
-
+  //FUNCIONES PARA OBTENER UBICACION ACTUAL Y PRONOSTICO DE LOCALIDAD MAS CERCANA
 
   // Función para obtener la ubicación actual
   async obtenerUbicacionActual() {
@@ -131,6 +132,11 @@ export class FolderPage implements OnInit {
       });
   }
 
+  //FUNCIONES PARA LISTA DE CIUDADES  
+  //FUNCIONES PARA LISTA DE CIUDADES  
+  //FUNCIONES PARA LISTA DE CIUDADES  
+  //FUNCIONES PARA LISTA DE CIUDADES   
+  //FUNCIONES PARA LISTA DE CIUDADES  
   //FUNCIONES PARA LISTA DE CIUDADES  
 
   infiniteScrollCiudades(event?: any) {

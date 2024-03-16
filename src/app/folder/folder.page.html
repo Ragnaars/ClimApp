@@ -77,9 +77,8 @@
     </ion-card>
 
     <ion-card *ngFor="let pronostico of pronosticos">
-      <ion-card-header>
-        <h2>{{pronostico.dia}}</h2>
-      </ion-card-header>
+      <div class="floating-square">{{pronostico.dia}}</div>
+      <ion-card-header> </ion-card-header>
       <ion-card-content>
         <p>Temperatura Máxima: {{pronostico.temperaturaMaxima}}°</p>
         <p *ngIf="pronostico.temperaturaMinima !== null">
