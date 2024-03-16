@@ -6,6 +6,7 @@ import { Geolocation, Position, PositionOptions } from '@capacitor/geolocation';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
 
+
 @Component({
   selector: 'app-folder',
   templateUrl: './folder.page.html',
@@ -31,65 +32,20 @@ export class FolderPage implements OnInit {
 
 
 
-  constructor(private condicion: CondicionActService, private pronosticoLocalidad: ObtenerLocalidaqdService) {
-
-    this.loadData();
+  constructor(
+    private condicion: CondicionActService,
+    private pronosticoLocalidad: ObtenerLocalidaqdService) {
+    this.infiniteScrollCiudades();
 
   }
-
-  loadData(event?: any) {
-    this.condicion.getDataLocalidad().subscribe((localidad) => {
-      this.ciudades = localidad;
-      setTimeout(() => {
-        for (let i = 0; i < this.cidudadesPerPage; i++) {
-          this.ciudades.push(`Item ${this.ciudades.length + 1}`);
-        }
-        if (event) {
-          event.target.complete(); // Mark the end of the data loading operation
-        }
-      }, 1000); // Simulate a 1-second delay to load the data
-
-      this.currentPage++; // Increment the page number for the next load
-    });
-  }
-
-
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
-    console.log(this.folder);
-
     // Llama a obtenerUbicacionActual aquí
-    this.obtenerUbicacionActual().then(() => {
-      // Coloca la lógica que depende de las coordenadas aquí
-      this.condicion.getDataLocalidad().subscribe((localidad) => {
-        this.ciudades = localidad;
-        console.log("ciudades", this.ciudades);
-        localidad.forEach((element: { latitud: number; longitud: number; }) => {
-          // Accede a this.coordenadas.latitude y this.coordenadas.longitude aquí
-          const distancia = this.haversine(-75, -74, element.latitud, element.longitud)
-          if (distancia < this.distanciaMinima) {
-            this.distanciaMinima = distancia;
-            this.puntoMasCercano = element;
-            console.log('Punto más cercano:', this.puntoMasCercano, " con distancia de : ", this.distanciaMinima);
-          }
-        })
-        console.log("finalmente la distancia minima es: ", this.distanciaMinima, "En la localidad de : ", this.puntoMasCercano);
-        this.codigoLocalidad = this.puntoMasCercano.codigo;
-        this.pronosticoLocalidad.obtenerLocalidadCompleta(this.codigoLocalidad).subscribe((localidad) => {
-          this.datosPronosLocalidad = localidad.data[0];
-          console.log("pronostico localidad", this.datosPronosLocalidad);
-          this.pronosticos = this.datosPronosLocalidad.pronostico
-          this.nombreLocalidad = this.datosPronosLocalidad.nombre;
-          this.objetoCondicion = this.datosPronosLocalidad.condicionActual;
-          console.log("objeto condicion", this.objetoCondicion);
-          this.condicionTexto = this.objetoCondicion.condicionTexto.toLowerCase().replace(/\s/g, '');
-          console.log("condicion texto", this.condicionTexto);
-        });
-      });
-    });
-
+    this.obtenerUbicacionActual();
   }
+
+
 
   // Función para obtener la ubicación actual
   async obtenerUbicacionActual() {
@@ -98,13 +54,15 @@ export class FolderPage implements OnInit {
         enableHighAccuracy: true,
         timeout: 10000,
       };
-
       const posicion: Position = await Geolocation.getCurrentPosition(opciones);
       // Asigna las coordenadas obtenidas a la variable coordenadas
       this.coordenadas = {
         latitude: posicion.coords.latitude,
         longitude: posicion.coords.longitude
       };
+      //DESPUES DE OBTENER LAS COORDENADAS:
+      // Coloca la lógica que depende de las coordenadas aquí
+      this.obtenerLocalicacionMasCercana();
       console.log('Ubicación obtenida aqui:', this.coordenadas);
     } catch (error) {
       console.error('Error al obtener la ubicación:', error);
@@ -131,9 +89,66 @@ export class FolderPage implements OnInit {
     return d;
   }
 
-  // Función para generar items
+  // Función para obtener la localidad más cercana
+  obtenerLocalicacionMasCercana() {
+    this.condicion.getDataLocalidad().subscribe((localidad) => {
+      this.ciudades = localidad;
+      console.log("ciudades", this.ciudades);
 
+      // Itera sobre el arreglo de localidades
+      localidad.forEach((element: { latitud: number; longitud: number; }) => {
+        // Calcula la distancia entre la ubicación actual y cada localidad
+        const distancia = this.haversine(-75, -74, element.latitud, element.longitud)
 
+        // Compara la distancia con this.distanciaMinima y actualiza si es menor
+        if (distancia < this.distanciaMinima) {
+          this.distanciaMinima = distancia;
+          this.puntoMasCercano = element;
+          console.log('Punto más cercano:', this.puntoMasCercano, " con distancia de : ", this.distanciaMinima);
+        }
+      })
 
+      console.log("finalmente la distancia minima es: ", this.distanciaMinima, "En la localidad de : ", this.puntoMasCercano);
+      this.codigoLocalidad = this.puntoMasCercano.codigo;
+
+      // Llama a obtenerDatosPronostico aquí gracias a que ya se tiene el código de la localidad más cercana
+      this.obtenerDatosPronostico();
+    });
+  }
+
+  // Función para obtener los datos del pronóstico de la localidad más cercana 
+  obtenerDatosPronostico() {
+    this.pronosticoLocalidad.obtenerLocalidadCompleta(this.codigoLocalidad)
+      .subscribe((localidad) => {
+        this.datosPronosLocalidad = localidad.data[0];
+        this.pronosticos = this.datosPronosLocalidad.pronostico;
+        this.nombreLocalidad = this.datosPronosLocalidad.nombre;
+        this.objetoCondicion = this.datosPronosLocalidad.condicionActual;
+        this.condicionTexto = this.objetoCondicion.condicionTexto.toLowerCase().replace(/\s/g, '');
+        console.log("objeto condicion", this.objetoCondicion);
+        console.log("condicion texto", this.condicionTexto);
+        console.log("pronostico localidad", this.datosPronosLocalidad);
+      });
+  }
+
+  //FUNCIONES PARA LISTA DE CIUDADES  
+
+  infiniteScrollCiudades(event?: any) {
+    this.condicion.getDataLocalidad().subscribe((localidad) => {
+      this.ciudades = localidad;
+      setTimeout(() => {
+        for (let i = 0; i < this.cidudadesPerPage; i++) {
+          if (this.ciudades.length < localidad.length) {
+            this.ciudades.push(localidad[this.ciudades.length]);
+          }
+        }
+        if (event) {
+          event.target.complete(); // Mark the end of the data loading operation
+        }
+      }, 1000); // Simulate a 1-second delay to load the data
+
+      this.currentPage++; // Increment the page number for the next load
+    });
+  }
 
 }
