@@ -29,6 +29,7 @@ export class FolderPage implements OnInit {
   cidudadesPerPage: number = 10
   pronosticos: any;
   codigoCiudad: any;
+Math: any;
 
 
 
@@ -100,7 +101,7 @@ export class FolderPage implements OnInit {
       // Itera sobre el arreglo de localidades
       localidad.forEach((element: { latitud: number; longitud: number; }) => {
         // Calcula la distancia entre la ubicación actual y cada localidad
-        const distancia = this.haversine(-33.45694,  -70.64827, element.latitud, element.longitud)
+        const distancia = this.haversine(-33.45694, -70.64827, element.latitud, element.longitud)
 
         // Compara la distancia con this.distanciaMinima y actualiza si es menor
         if (distancia < this.distanciaMinima) {
@@ -159,14 +160,18 @@ export class FolderPage implements OnInit {
     });
   }
 
-// Función que se llama al seleccionar una ciudad y obtener su pronóstico
-seleccionarCiudad(ciudad: any) {
-  this.codigoCiudad = ciudad.codigo; // Almacena el código de la ciudad seleccionada
-  this.router.navigate(['/ciudad', ciudad.codigo]); // Navega a la página de Ciudad con el código de la ciudad como parámetro
+  // Función que se llama al seleccionar una ciudad y obtener su pronóstico
+  seleccionarCiudad(ciudad: any) {
+    this.codigoCiudad = ciudad.codigo; // Almacena el código de la ciudad seleccionada
+    this.router.navigate(['/ciudad', ciudad.codigo]); // Navega a la página de Ciudad con el código de la ciudad como parámetro
+  }
+
+  redondearTemperatura() {
+    return Math.floor(this.objetoCondicion.temperatura);
+  }
+
+
+
 }
 
-  
 
-}
-
-  

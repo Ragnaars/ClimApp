@@ -9,11 +9,12 @@ export class AppComponent {
   public appPages = [
     { title: 'Condicion actual', url: '/folder/condicion', icon: 'sunny' },
     { title: "Ciudades", url: '/folder/ciudades', icon: 'location' },
-    { title: "Ciudad", url: '/folder/ciudad', icon: 'compass' }
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  public labels = [
+    { title: 'DGAC', image: 'assets/DGAC.png' },
+    { title: 'DMC', image: 'assets/DMC.png' },
 
-  // Variable para almacenar las coordenadas 
+  ]; 
 
   constructor() {
 
