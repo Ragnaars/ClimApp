@@ -31,6 +31,7 @@ export class FolderPage implements OnInit {
   pronosticos: any;
   pronosticoSeleccionado: any;
   ciudadSeleccionada: any;
+  condicionActual: any;
 
 
 
@@ -173,7 +174,18 @@ seleccionarCiudad(ciudad: any) {
       if (pronostico && pronostico.data && pronostico.data.length > 0) {
         // Asigna el primer conjunto de datos del pronóstico a la variable pronosticoSeleccionado
         this.pronosticoSeleccionado = pronostico.data[0];
+
+        // Verifica si hay datos de condición actual y guárdalos si están disponibles
+        if (this.pronosticoSeleccionado.condicionActual) {
+          this.condicionActual = this.pronosticoSeleccionado.condicionActual;
+          console.log("Condición actual:", this.condicionActual);
+        }
+
         // Resto del código para manejar los datos del pronóstico...
+        
+        // Imprime los datos de la ciudad y el pronóstico
+        console.log("Datos de la ciudad:", ciudad);
+        console.log("Datos del pronóstico:", this.pronosticoSeleccionado);
       } else {
         // Si no se encontraron datos del pronóstico, asigna null a pronosticoSeleccionado
         console.log("No se encontraron datos del pronóstico para", ciudad.nombre);
@@ -181,6 +193,7 @@ seleccionarCiudad(ciudad: any) {
       }
     });
 }
+
   
 
 }
