@@ -92,38 +92,53 @@
     BODY PARA CIUDADES
     -->
 
-  <body
+  <!-- <body
     *ngIf="folder == 'ciudades'"
     [style.backgroundImage]="'url(assets/fondocondicion/' + condicionTexto + '.jpg)'"
-  >
-    <ion-content>
-      <ion-header [translucent]="true" style="background-color: transparent">
-        <ion-toolbar>
-          <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-          </ion-buttons>
-          <ion-title style="text-align: center; margin-right: 6vh"
-            >{{ folder }}</ion-title
-          >
-        </ion-toolbar>
-      </ion-header>
+  > -->
+  <div *ngIf="folder == 'ciudades'">
+    <ion-header [translucent]="true" style="background-color: transparent">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title style="text-align: center; margin-right: 6vh">{{ folder }}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+  
+    <ion-list>
+      <ion-item *ngFor="let ciudad of ciudades" (click)="seleccionarCiudad(ciudad)">
+        {{ ciudad.nombre }}
+      </ion-item>
+    </ion-list>
+  
+    <div *ngIf="pronosticoSeleccionado">
+      <h2>{{ ciudadSeleccionada?.nombre }}</h2>
+      <!-- Mostrar la condición actual -->
+      <ion-card *ngIf="objetoCondicion">
+        <ion-card-header>Condición Actual</ion-card-header>
+        <ion-card-content>
+          <p>{{ objetoCondicion.condicionTexto }}</p>
+          <p>Temperatura: {{ objetoCondicion.temperatura }}°</p>
+          <!-- Agrega más detalles según sea necesario -->
+        </ion-card-content>
+      </ion-card>
+  
+      <!-- Mostrar el pronóstico seleccionado -->
+      <div *ngIf="pronosticoSeleccionado.pronostico">
+        <ion-card *ngFor="let pronostico of pronosticoSeleccionado.pronostico">
+          <ion-card-header>{{ pronostico?.dia }}</ion-card-header>
+          <ion-card-content>
+            <p>Temperatura Máxima: {{ pronostico?.temperaturaMaxima }}°</p>
+            <p *ngIf="pronostico?.temperaturaMinima !== null">
+              Temperatura Mínima: {{ pronostico?.temperaturaMinima }}°
+            </p>
+            <!-- Agrega más detalles según sea necesario -->
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+  </div>
 
-      <ion-list style="box-shadow: 0px 2px 0px 1px rgb(143, 135, 135)">
-        <ion-item *ngFor="let ciudad of ciudades">
-          <ion-label>{{ciudad.nombre}}</ion-label>
-        </ion-item>
-      </ion-list>
-
-      <ion-infinite-scroll
-        threshold="100px"
-        (ionInfinite)="infiniteScrollCiudades($event)"
-      >
-        <ion-infinite-scroll-content
-          loadingSpinner="bubbles"
-          loadingText="Loading more data..."
-        >
-        </ion-infinite-scroll-content>
-      </ion-infinite-scroll>
-    </ion-content>
-  </body>
+  
 </ion-content>

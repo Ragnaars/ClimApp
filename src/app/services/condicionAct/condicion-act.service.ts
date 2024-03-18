@@ -19,14 +19,19 @@ export class CondicionActService {
       return of(this.cachedData);
     } else {
       return this.http.get<any>(this.apiCondicion).pipe(
-        tap(data => this.cachedData = data),
+        tap(data => {
+          // Asigna las ciudades y sus pronósticos al cachedData
+          this.cachedData = data.map((ciudad: any) => ({
+            ...ciudad,
+            pronostico: null // Inicialmente no tenemos el pronóstico
+          }));
+        }),
         catchError(error => {
           console.log('error', error);
           return of(null);
         })
       );
     }
-
   }
 
   refrescarInformacionDeLocalidad(): Observable<any> {

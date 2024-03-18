@@ -29,6 +29,8 @@ export class FolderPage implements OnInit {
   currentPage: number = 1;
   cidudadesPerPage: number = 10
   pronosticos: any;
+  pronosticoSeleccionado: any;
+  ciudadSeleccionada: any;
 
 
 
@@ -129,6 +131,7 @@ export class FolderPage implements OnInit {
         console.log("objeto condicion", this.objetoCondicion);
         console.log("condicion texto", this.condicionTexto);
         console.log("pronostico localidad", this.datosPronosLocalidad);
+        console.log("datos", localidad);
       });
   }
 
@@ -157,4 +160,29 @@ export class FolderPage implements OnInit {
     });
   }
 
+// Función que se llama al seleccionar una ciudad y obtener su pronóstico
+seleccionarCiudad(ciudad: any) {
+  // Asigna la ciudad seleccionada a la variable ciudadSeleccionada
+  this.ciudadSeleccionada = ciudad;
+  // Muestra en la consola la ciudad seleccionada
+  console.log("Ciudad seleccionada:", ciudad);
+  // Llama al servicio para obtener el pronóstico de la localidad y suscribe una función al observable que maneja la respuesta del servicio
+  this.pronosticoLocalidad.obtenerLocalidadCompleta(ciudad.codigo)
+    .subscribe((pronostico) => {
+      // Verifica si se obtuvieron datos del pronóstico
+      if (pronostico && pronostico.data && pronostico.data.length > 0) {
+        // Asigna el primer conjunto de datos del pronóstico a la variable pronosticoSeleccionado
+        this.pronosticoSeleccionado = pronostico.data[0];
+        // Resto del código para manejar los datos del pronóstico...
+      } else {
+        // Si no se encontraron datos del pronóstico, asigna null a pronosticoSeleccionado
+        console.log("No se encontraron datos del pronóstico para", ciudad.nombre);
+        this.pronosticoSeleccionado = null;
+      }
+    });
 }
+  
+
+}
+
+  
