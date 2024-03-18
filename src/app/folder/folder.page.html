@@ -111,35 +111,5 @@
         {{ ciudad.nombre }}
       </ion-item>
     </ion-list>
-  
-    <div *ngIf="pronosticoSeleccionado">
-      <h2>{{ ciudadSeleccionada?.nombre }}</h2>
-      <!-- Mostrar la condición actual -->
-      <ion-card *ngIf="pronosticoSeleccionado.condicionActual">
-        <ion-card-header>Condición Actual</ion-card-header>
-        <ion-card-content>
-          <p>Condición: {{ pronosticoSeleccionado.condicionActual.condicionTexto }}</p>
-          <p>Temperatura: {{ pronosticoSeleccionado.condicionActual.temperatura }}°</p>
-          <!-- Agrega más detalles según sea necesario -->
-        </ion-card-content>
-      </ion-card>
-  
-      <!-- Mostrar el pronóstico seleccionado -->
-      <div *ngIf="pronosticoSeleccionado.pronostico">
-        <ion-card *ngFor="let pronostico of pronosticoSeleccionado.pronostico">
-          <ion-card-header>{{ pronostico?.dia }}</ion-card-header>
-          <ion-card-content>
-            <p>Temperatura Máxima: {{ pronostico?.temperaturaMaxima }}°</p>
-            <p *ngIf="pronostico?.temperaturaMinima !== null">
-              Temperatura Mínima: {{ pronostico?.temperaturaMinima }}°
-            </p>
-            <!-- Agrega más detalles según sea necesario -->
-          </ion-card-content>
-        </ion-card>
-      </div>
-    </div>
-  </div>
-  
-
-  
+  </div>  
 </ion-content>

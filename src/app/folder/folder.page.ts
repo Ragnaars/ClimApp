@@ -1,10 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CondicionActService } from '../services/condicionAct/condicion-act.service';
 import { ObtenerLocalidaqdService } from "../services/obtenerLocalidad/obtener-localidaqd.service";
 import { Geolocation, Position, PositionOptions } from '@capacitor/geolocation';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
-
 
 
 @Component({
@@ -29,15 +28,14 @@ export class FolderPage implements OnInit {
   currentPage: number = 1;
   cidudadesPerPage: number = 10
   pronosticos: any;
-  pronosticoSeleccionado: any;
-  ciudadSeleccionada: any;
-  condicionActual: any;
+  codigoCiudad: any;
 
 
 
   constructor(
     private condicion: CondicionActService,
-    private pronosticoLocalidad: ObtenerLocalidaqdService) {
+    private pronosticoLocalidad: ObtenerLocalidaqdService,
+    private router: Router,) {
     // Llama a infiniteScrollCiudades aquí para que se cargue la lista de ciudades al iniciar la aplicación
     this.obtenerUbicacionActual();
     this.infiniteScrollCiudades();
@@ -102,7 +100,7 @@ export class FolderPage implements OnInit {
       // Itera sobre el arreglo de localidades
       localidad.forEach((element: { latitud: number; longitud: number; }) => {
         // Calcula la distancia entre la ubicación actual y cada localidad
-        const distancia = this.haversine(-75, -74, element.latitud, element.longitud)
+        const distancia = this.haversine(-33.45694,  -70.64827, element.latitud, element.longitud)
 
         // Compara la distancia con this.distanciaMinima y actualiza si es menor
         if (distancia < this.distanciaMinima) {
@@ -163,35 +161,8 @@ export class FolderPage implements OnInit {
 
 // Función que se llama al seleccionar una ciudad y obtener su pronóstico
 seleccionarCiudad(ciudad: any) {
-  // Asigna la ciudad seleccionada a la variable ciudadSeleccionada
-  this.ciudadSeleccionada = ciudad;
-  // Muestra en la consola la ciudad seleccionada
-  console.log("Ciudad seleccionada:", ciudad);
-  // Llama al servicio para obtener el pronóstico de la localidad y suscribe una función al observable que maneja la respuesta del servicio
-  this.pronosticoLocalidad.obtenerLocalidadCompleta(ciudad.codigo)
-    .subscribe((pronostico) => {
-      // Verifica si se obtuvieron datos del pronóstico
-      if (pronostico && pronostico.data && pronostico.data.length > 0) {
-        // Asigna el primer conjunto de datos del pronóstico a la variable pronosticoSeleccionado
-        this.pronosticoSeleccionado = pronostico.data[0];
-
-        // Verifica si hay datos de condición actual y guárdalos si están disponibles
-        if (this.pronosticoSeleccionado.condicionActual) {
-          this.condicionActual = this.pronosticoSeleccionado.condicionActual;
-          console.log("Condición actual:", this.condicionActual);
-        }
-
-        // Resto del código para manejar los datos del pronóstico...
-        
-        // Imprime los datos de la ciudad y el pronóstico
-        console.log("Datos de la ciudad:", ciudad);
-        console.log("Datos del pronóstico:", this.pronosticoSeleccionado);
-      } else {
-        // Si no se encontraron datos del pronóstico, asigna null a pronosticoSeleccionado
-        console.log("No se encontraron datos del pronóstico para", ciudad.nombre);
-        this.pronosticoSeleccionado = null;
-      }
-    });
+  this.codigoCiudad = ciudad.codigo; // Almacena el código de la ciudad seleccionada
+  this.router.navigate(['/ciudad', ciudad.codigo]); // Navega a la página de Ciudad con el código de la ciudad como parámetro
 }
 
   

@@ -1,13 +1,85 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>ciudad</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">ciudad</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div
+    id="container"
+    [style.backgroundImage]="'url(assets/fondocondicion/' + condicionTexto + '.jpg)'"
+    style="height: auto; background-size: cover; background-position: center"
+  >
+    <ion-header [translucent]="true" style="background-color: transparent">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button style="color: white"></ion-menu-button>
+        </ion-buttons>
+        <ion-title
+          style="
+            text-align: center;
+            margin-right: 5.5vh;
+            color: white;
+            font-family: 'MiFuente-Bold';
+          "
+          >{{ nombreLocalidad}}</ion-title
+        >
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-card style="box-shadow: 0px 2px 0px 1px rgb(143, 135, 135)">
+      <ion-card-header> </ion-card-header>
+      <ion-card-content *ngIf="objetoCondicion">
+        <p>{{objetoCondicion.condicionTexto}}</p>
+
+        <ion-grid class="ion-text-center">
+          <ion-row
+            style="display: flex; align-items: center; margin-left: 5.5vh"
+          >
+            <ion-col>
+              <p style="font-size: xx-large; font-weight: bold">
+                {{objetoCondicion.temperatura}}°
+              </p>
+            </ion-col>
+            <ion-col style="display: flex; align-items: center">
+              <img
+                [src]="'assets/iconosclima/'+objetoCondicion.condicionIcono"
+                alt="Clima"
+                style="height: 10vh; width: 10vh"
+              />
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col></ion-col>
+            <ion-col>
+              <img
+                [src]="'assets/iconosuv/'+datosPronosLocalidad.indiceUV.indice+'.png'"
+                style="border-radius: 50%"
+              />
+              <p>{{datosPronosLocalidad.indiceUV.calificador}}</p>
+            </ion-col>
+            <ion-col></ion-col>
+          </ion-row>
+        </ion-grid>
+        <p>Humedad: {{objetoCondicion.humedad}}%</p>
+
+        <p>Información de las: {{objetoCondicion.timestamp}}</p>
+        <div
+          style="
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+          "
+        ></div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngFor="let pronostico of pronosticos">
+      <div class="floating-square">{{pronostico.dia}}</div>
+      <ion-card-header> </ion-card-header>
+      <ion-card-content>
+        <p>Temperatura Máxima: {{pronostico.temperaturaMaxima}}°</p>
+        <p *ngIf="pronostico.temperaturaMinima !== null">
+          Temperatura Mínima: {{pronostico.temperaturaMinima}}°
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

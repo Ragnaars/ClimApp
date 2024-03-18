@@ -1,0 +1,169 @@
+* p {
+    font-family: 'MiFuente-Bold';
+}
+
+ion-menu-button {
+    color: var(--ion-color-primary);
+}
+
+
+#container {
+    text-align: center;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    right: 0;
+}
+
+#container strong {
+    font-size: 20px;
+    line-height: 26px;
+}
+
+#container p {
+    font-size: 16px;
+    line-height: 22px;
+    margin: 0;
+}
+
+#container a {
+    text-decoration: none;
+}
+
+#container div.uv {
+    color: aqua;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+@font-face {
+    font-family: 'MiFuente-Bold';
+    src: url('/assets/fonts/OpenSans/OpenSans-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'MiFuente-Italic';
+    src: url('/assets/fonts/OpenSans/OpenSans-Italic.ttf');
+}
+
+@font-face {
+    font-family: 'MiFuente-Regular';
+    src: url('/assets/fonts/OpenSans/OpenSans-Regular.ttf');
+}
+
+p {
+    font-family: 'MiFuente-Bold';
+    /* Usar la fuente regular por defecto para los párrafos */
+}
+
+p {
+    font-family: 'MiFuente', sans-serif; // Utiliza el nombre de la fuente que especificaste en @font-face
+}
+
+img {
+    width: 50%;
+}
+
+body {
+    /* ... tus otros estilos ... */
+    background-size: cover;
+    /* Esto hará que la imagen cubra toda la tarjeta */
+    background-repeat: no-repeat;
+    /* Esto evitará que la imagen se repita */
+    background-position: center;
+    /* Esto centrará la imagen en la tarjeta */
+}
+
+
+
+ion-card {
+    background: rgba(255, 255, 255, 0.5);
+    /* Blanco con 50% de opacidad */
+}
+
+ion-toolbar {
+    --background: transparent;
+    /* Fondo transparente */
+
+}
+
+.condicion-bruma {
+    background-image: url('/assets/fondocondicion/bruma.jpg');
+}
+
+.condicion-brumanoche {
+    background-image: url('/assets/fondocondicion/brumanoche.jpg');
+}
+
+.condicion-cubierto {
+    background-image: url('/assets/fondocondicion/cubierto.jpg');
+}
+
+.condicion-cubiertonoche {
+    background-image: url('/assets/fondocondicion/cubiertonoche.jpg');
+}
+
+.condicion-despejado {
+    background-image: url('/assets/fondocondicion/despejado.jpg');
+}
+
+.condicion-despejadoconnubes {
+    background-image: url('/assets/fondocondicion/despejadoconnubes.jpg');
+}
+
+.condicion-despejadoconnubesnoche {
+    background-image: url('/assets/fondocondicion/despejadoconnubesnoche.jpg');
+}
+
+.condicion-despejadonoche {
+    background-image: url('/assets/fondocondicion/despejadonoche.jpg');
+}
+
+.condicion-llovizna {
+    background-image: url('/assets/fondocondicion/llovizna.jpg');
+}
+
+.condicion-lloviznanoche {
+    background-image: url('/assets/fondocondicion/lloviznanoche.jpg');
+}
+
+.condicion-lluvia {
+    background-image: url('/assets/fondocondicion/lluvia.jpg');
+}
+
+.condicion-lluvianoche {
+    background-image: url('/assets/fondocondicion/lluvianoche.jpg');
+}
+
+.condicion-niebla {
+    background-image: url('/assets/fondocondicion/niebla.jpg');
+}
+
+.condicion-nieblanoche {
+    background-image: url('/assets/fondocondicion/nieblanoche.jpg');
+}
+
+.condicion-nieve {
+    background-image: url('/assets/fondocondicion/nieve.jpg');
+}
+
+.condicion-sininformacion2 {
+    background-image: url('/assets/fondocondicion/sininformacion2.jpg');
+}
+
+.condicion-tormentadearena {
+    background-image: url('/assets/fondocondicion/tormentadearena.jpg');
+}
+
+.condicion-viento {
+    background-image: url('/assets/fondocondicion/viento.jpg');
+}
+
+.condicion-cubiertoynevadas {
+    background-image: url('/assets/fondocondicion/cubierto y nevadas.jpg');
+}
